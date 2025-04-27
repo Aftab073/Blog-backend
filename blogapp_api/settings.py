@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(r+i_k_4@(ytwp(enkrh@hr1s!zh87v$s*ush#qli^n6sau28j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True  # Temporarily enable for debugging
 
 ALLOWED_HOSTS = ['blog-backend-hpl0.onrender.com', 'localhost', '127.0.0.1']
 
@@ -34,7 +34,11 @@ LOGGING = {
     'disable_existing_loggers': False,
     'formatters': {
         'verbose': {
-            'format': '{levelname} {asctime} {module} {message}',
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
             'style': '{',
         },
     },
@@ -176,7 +180,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://blog-aftab.netlify.app"
+    "https://blog-aftab.netlify.app",
 ]
 
 # Add these settings for handling CORS with credentials
