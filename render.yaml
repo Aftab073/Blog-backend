@@ -1,11 +1,18 @@
-# render.yaml
 services:
   - type: web
-    name: blogapp_api
+    name: blog-backend
     env: python
-    plan: free
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn your_project_name.wsgi:application
+    startCommand: |
+      python manage.py migrate
+      python create_superuser.py
+      python manage.py collectstatic --no-input
+      gunicorn blogapp_api.wsgi:application
     envVars:
-      - key: DJANGO_SETTINGS_MODULE
-        value: blogapp_api.settings
+      - key: PYTHON_VERSION
+        value: 3.12.0
+      - key: DATABASE_URL
+        sync: false
+      - key: DJANGO_ALLOWED_HOSTS
+        value: blog-backend-hpl0.onrender.com
+        value: "False"
