@@ -11,12 +11,12 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: 3.12.0
-      - key: DATABASE_URL
-        sync: false
       - key: DEBUG
         value: "False"
       - key: DJANGO_ALLOWED_HOSTS
         value: blog-backend-hpl0.onrender.com
+      - key: CORS_ALLOWED_ORIGINS
+        value: https://blog-aftab.netlify.app
       - key: DJANGO_SECRET_KEY
         generateValue: true
     autoDeploy: true
