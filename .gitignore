@@ -7,11 +7,11 @@ __pycache__/
 db.sqlite3
 
 # Ignore media uploads
-media/
+
 
 # Ignore test scripts and placeholder files
 create_test_posts.py
-placeholder.jpg
+
 
 # Ignore system files
 .DS_Store
@@ -44,7 +44,7 @@ db.sqlite3
 
 # Static & Media
 /staticfiles/
-/media/
+
 /static/
 
 # Virtual Environments

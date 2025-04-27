@@ -6,7 +6,7 @@ services:
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
     startCommand: |
-      python initialize_database.py
+      python force_migrations.py
       python create_superuser.py
       python create_test_posts.py
       gunicorn blogapp_api.wsgi:application

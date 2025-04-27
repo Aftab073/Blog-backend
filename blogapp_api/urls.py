@@ -34,6 +34,18 @@ urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 ]
 
+# Add a catch-all pattern for media files to serve placeholder for missing images
+def serve_placeholder(request, path):
+    # Try to serve the requested file
+    response = serve(request, path, document_root=settings.MEDIA_ROOT)
+    # If the file doesn't exist (404), serve the placeholder
+    if response.status_code == 404:
+        return serve(request, 'placeholder.jpg', document_root=settings.BASE_DIR)
+    return response
+
+# Replace the media URL pattern with our custom handler
+urlpatterns[2] = re_path(r'^media/(?P<path>.*)$', serve_placeholder)
+
 # Add static URLs - this is the standard Django way and works in development
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
