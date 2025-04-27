@@ -4,8 +4,10 @@ services:
     env: python
     buildCommand: pip install -r requirements.txt
     startCommand: |
-      python manage.py migrate
+      python manage.py makemigrations
+      python manage.py migrate --noinput
       python create_superuser.py
+      python create_test_posts.py
       python manage.py collectstatic --no-input
       gunicorn blogapp_api.wsgi:application
     envVars:
@@ -19,4 +21,8 @@ services:
         value: https://blog-aftab.netlify.app
       - key: DJANGO_SECRET_KEY
         generateValue: true
+    databases:
+      - name: blog_db
+        databaseName: blog_db
+        user: blog_user
     autoDeploy: true

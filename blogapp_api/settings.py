@@ -74,9 +74,20 @@ if DEBUG:
     }
 else:
     # Use DATABASE_URL environment variable from Render
-    DATABASES = {
-        'default': dj_database_url.config(default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'), conn_max_age=600)
-    }
+    # This will automatically use the PostgreSQL database provided by Render
+    DATABASE_URL = os.environ.get('DATABASE_URL')
+    if DATABASE_URL:
+        DATABASES = {
+            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+        }
+    else:
+        # Fallback to SQLite if no DATABASE_URL is provided
+        DATABASES = {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
