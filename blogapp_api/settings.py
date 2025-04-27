@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(r+i_k_4@(ytwp(enkrh@hr1s!zh87v$s*ush#qli^n6sau28j
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['blog-backend-hpl0.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -137,11 +137,13 @@ SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
 # Update CORS settings
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "https://blog-aftab.netlify.app",
+    "http://blog-aftab.netlify.app"
 ]
 
 # Add these settings for handling CORS with credentials
