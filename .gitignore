@@ -1,0 +1,27 @@
+# Ignore Python bytecode
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore SQLite database
+db.sqlite3
+
+# Ignore media uploads
+media/
+
+# Ignore test scripts and placeholder files
+create_test_posts.py
+placeholder.jpg
+
+# Ignore system files
+.DS_Store
+Thumbs.db
+
+# Ignore virtual environments
+venv/
+.env
+.venv
+# Ignore IDE specific files
+.idea/
+# Ignore log files  
+node_modules/
