@@ -64,30 +64,15 @@ WSGI_APPLICATION = 'blogapp_api.wsgi.application'
 # Database
 import dj_database_url
 
-# Use SQLite locally, PostgreSQL in production
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-else:
-    # Use DATABASE_URL environment variable from Render
-    # This will automatically use the PostgreSQL database provided by Render
-    DATABASE_URL = os.environ.get('DATABASE_URL')
-    if DATABASE_URL:
-        DATABASES = {
-            'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
-        }
-    else:
-        # Fallback to SQLite if no DATABASE_URL is provided
-        DATABASES = {
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
-            }
-        }
+# Database configuration
+# Use DATABASE_URL from environment if available (Render provides this)
+# Otherwise fall back to SQLite for local development
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f'sqlite:///{os.path.join(BASE_DIR, "db.sqlite3")}',
+        conn_max_age=600
+    )
+}
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [

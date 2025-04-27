@@ -49,36 +49,69 @@ def initialize_database():
 def create_tables_manually():
     """Create database tables manually using SQL"""
     try:
+        from django.conf import settings
+        is_postgres = 'postgresql' in settings.DATABASES['default']['ENGINE']
+        
         with connection.cursor() as cursor:
-            # Create Post table
-            cursor.execute("""
-            CREATE TABLE IF NOT EXISTS blogapp_post (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                title VARCHAR(200) NOT NULL,
-                slug VARCHAR(200) UNIQUE NOT NULL,
-                excerpt TEXT NOT NULL,
-                content TEXT NOT NULL,
-                cover_image VARCHAR(100) NULL,
-                tags TEXT NOT NULL,
-                published_at DATETIME NOT NULL,
-                updated_at DATETIME NOT NULL,
-                author_id INTEGER NOT NULL REFERENCES auth_user(id)
-            )
-            """)
+            # Check if we're using PostgreSQL or SQLite
+            if is_postgres:
+                # PostgreSQL version
+                cursor.execute("""
+                CREATE TABLE IF NOT EXISTS blogapp_post (
+                    id SERIAL PRIMARY KEY,
+                    title VARCHAR(200) NOT NULL,
+                    slug VARCHAR(200) UNIQUE NOT NULL,
+                    excerpt TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    cover_image VARCHAR(100) NULL,
+                    tags JSONB NOT NULL,
+                    published_at TIMESTAMP WITH TIME ZONE NOT NULL,
+                    updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+                    author_id INTEGER NOT NULL REFERENCES auth_user(id)
+                )
+                """)
+                
+                # Create Contact table
+                cursor.execute("""
+                CREATE TABLE IF NOT EXISTS blogapp_contact (
+                    id SERIAL PRIMARY KEY,
+                    name VARCHAR(100) NOT NULL,
+                    email VARCHAR(254) NOT NULL,
+                    subject VARCHAR(200) NOT NULL,
+                    message TEXT NOT NULL,
+                    created_at TIMESTAMP WITH TIME ZONE NOT NULL
+                )
+                """)
+            else:
+                # SQLite version
+                cursor.execute("""
+                CREATE TABLE IF NOT EXISTS blogapp_post (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title VARCHAR(200) NOT NULL,
+                    slug VARCHAR(200) UNIQUE NOT NULL,
+                    excerpt TEXT NOT NULL,
+                    content TEXT NOT NULL,
+                    cover_image VARCHAR(100) NULL,
+                    tags TEXT NOT NULL,
+                    published_at DATETIME NOT NULL,
+                    updated_at DATETIME NOT NULL,
+                    author_id INTEGER NOT NULL REFERENCES auth_user(id)
+                )
+                """)
+                
+                # Create Contact table
+                cursor.execute("""
+                CREATE TABLE IF NOT EXISTS blogapp_contact (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name VARCHAR(100) NOT NULL,
+                    email VARCHAR(254) NOT NULL,
+                    subject VARCHAR(200) NOT NULL,
+                    message TEXT NOT NULL,
+                    created_at DATETIME NOT NULL
+                )
+                """)
             
-            # Create Contact table
-            cursor.execute("""
-            CREATE TABLE IF NOT EXISTS blogapp_contact (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                name VARCHAR(100) NOT NULL,
-                email VARCHAR(254) NOT NULL,
-                subject VARCHAR(200) NOT NULL,
-                message TEXT NOT NULL,
-                created_at DATETIME NOT NULL
-            )
-            """)
-            
-            logger.info("Tables created manually")
+            logger.info(f"Tables created manually for {'PostgreSQL' if is_postgres else 'SQLite'}")
     except Exception as e:
         logger.error(f"Error creating tables manually: {e}")
         raise
