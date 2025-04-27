@@ -25,3 +25,68 @@ venv/
 .idea/
 # Ignore log files  
 node_modules/
+
+# Python
+__pycache__/
+*.py[cod]
+*.sqlite3
+*.pyc
+*.pyo
+*.pyd
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+.env
+.env.local
+.env.production
+
+# Static & Media
+/staticfiles/
+/media/
+/static/
+
+# Virtual Environments
+venv/
+ENV/
+env/
+.venv/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Render Build Artifacts
+build/
+dist/
+*.egg-info/
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+# Node.js (if you have frontend)
+node_modules/
+build/
+npm-debug.log
+yarn-error.log
+
+# Others
+*.bak
+*.swp
+
+# If using Celery
+celerybeat-schedule
+
+# If using coverage.py
+htmlcov/
+.coverage
+
+# Temporary files
+*.tmp
+*.temp

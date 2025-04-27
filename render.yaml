@@ -1,0 +1,11 @@
+# render.yaml
+services:
+  - type: web
+    name: blogapp_api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn your_project_name.wsgi:application
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: blogapp_api.settings
