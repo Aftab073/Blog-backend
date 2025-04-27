@@ -1,7 +1,10 @@
+"""
+Models for the blogapp application.
+"""
 from django.db import models
 from django.utils.text import slugify
-from django.contrib.auth.models import User
-import uuid
+from django.utils import timezone
+from django.conf import settings
 from datetime import datetime
 
 class Post(models.Model):
@@ -10,7 +13,7 @@ class Post(models.Model):
     excerpt = models.TextField()
     content = models.TextField()
     cover_image = models.ImageField(upload_to='posts/', blank=True, null=True)
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     tags = models.JSONField(default=list)
     published_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -4,6 +4,8 @@ Django settings for blogapp_api project.
 
 import os
 from pathlib import Path
+import dj_database_url
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -127,7 +129,8 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
-    "https://blog-aftab.netlify.app"
+    "https://blog-aftab.netlify.app",
+
 ]
 
 # Email settings
